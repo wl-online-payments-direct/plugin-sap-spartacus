@@ -1,0 +1,25 @@
+ngb-modal-window {
+    .saved-card-item {
+        display: flex;
+        padding: 27px 30px;
+
+        @include media-breakpoint-down(sm) {
+            flex-direction: column;
+            padding: 27px 0;
+        }
+
+        .saved-card-item-details {
+            flex: 1 1 auto;
+        }
+
+        .saved-card-item-details .line {
+            padding-bottom: 5px;
+        }
+
+        .saved-card-item-details .label {
+            @include media-breakpoint-down(sm) {
+                display: block;
+            }
+        }
+    }
+}

@@ -1,0 +1,45 @@
+{
+  "paymentMethod": {
+    "title": "Dettagli di pagamento",
+    "useNewCardLabel": "Usa la nuova carta",
+    "issuerLabel": "Emittente",
+    "issuerDefaultOption": "Seleziona l'emittente",
+    "paymentRejected": "Il tuo pagamento è stato rifiutato. Per favore, riprova.",
+    "paymentCancelled": "Pagamento annullato! Seleziona un nuovo metodo di pagamento.",
+    "payByLink": "Pay By Link"
+  },
+  "tokenization": {
+    "otherPayments": "Un altro metodo di pagamento",
+    "useSavedCard": "Usa la carta salvata",
+    "do": "Paga ora",
+    "dialogTitle": "Schede salvate",
+    "cardNumber": "Numero di carta",
+    "cardholdersName": "Nome del titolare della carta",
+    "expiryDate": "Data di scadenza",
+    "useCard": "Use card"
+  },
+  "worldlineCheckoutReview": {
+    "endOn": "Fine su",
+    "recurrencePeriodType_DAILY": "Giorno/i",
+    "recurrencePeriodType_WEEKLY": "Settimana(e)",
+    "recurrencePeriodType_YEARLY": "Annuale",
+    "recurrencePeriodType_MONTHLY": "Mese(i)",
+    "repeatOnMonths": "Ripeti ogni # mesi"
+
+  },
+  "mandate": {
+    "info": "INFORMAZIONI SUL MANDATO",
+    "address": "INDIRIZZO DEL MANDATO"
+  },
+  "surcharge": {
+    "message": "Si prega di notare che potrebbe essere aggiunto un supplemento all'importo da pagare a seconda del metodo di pagamento scelto.",
+    "surcharge": "Supplemento",
+    "testMessage": "Test Message"
+  },
+  "replenishmentMessages": {
+    "enable-replenishment": "Crea un account o accedi per effettuare un ordine di rifornimento",
+    "error-message-payment-method": "Assicurati di aver acconsentito alla memorizzazione dei tuoi dati di pagamento per il tuo ordine di rifornimento.",
+    "HTP-remember-payment-details": "Si prega di acconsentire alla memorizzazione dei dati di pagamento per il vostro ordine di rifornimento.",
+    "HOP-remember-payment-details": "Effettuando un ordine di rifornimento, acconsento al salvataggio dei miei dati di pagamento per tutta la durata del mio abbonamento."
+  }
+}

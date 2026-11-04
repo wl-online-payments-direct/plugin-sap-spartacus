@@ -1,0 +1,279 @@
+<ng-container *ngIf="paymentMethods$ | async as paymentMethods">
+
+  <div *ngIf="displayWarningMessage" class="alert alert-info">{{'paymentMethod.paymentRejected' | cxTranslate}}</div>
+  <div *ngIf="displayPaymentCancelledMessage" class="alert alert-info">{{'paymentMethod.paymentCancelled' | cxTranslate}}</div>
+  <div *ngIf="displaySavePaymentDetailsWarning$" class="alert alert-info">{{ 'replenishmentMessages.error-message-payment-method' | cxTranslate }}</div>
+  <div class="cx-msg" *ngIf="displaySurcharge$ | async">
+    {{ 'surcharge.message' | cxTranslate }}
+  </div>
+  <ng-container *ngIf="getSavedTokens$ | async as saved">
+    <ng-container *ngIf="checkoutMethod$ | async as checkoutMethod">
+      <form (ngSubmit)="next()" [formGroup]="paymentMethodForm">
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
+            <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
+              {{ 'paymentMethod.title' | cxTranslate }}
+            </h3>
+            <fieldset class="credit-card-selector-block form-check">
+              <table>
+                <!-- Display Use saved card label -->
+
+                <tr *ngIf="saved !=null && saved.length" class="card-row selected">
+                  <td [colSpan]="5">
+                    {{ 'tokenization.useSavedCard' | cxTranslate }}
+                  </td>
+                </tr>
+                <!-- Display saved cards + tokenization form -->
+                <ng-container *ngFor="let method of saved">
+                  <!-- Saved cards-->
+                  <tr class="card-row" (click)="selectRadio(method)">
+                    <td class="radioButton">
+                      <input [value]="method.id" formControlName="paymentProductId"
+                             id="paymentMethod-{{ method.id }}-saved"
+                             role="radio" type="radio" [checked]="isChecked(method.id)" />
+                      <img alt="" class="logo" src="{{method.paymentMethodImageUrl}}">
+                    </td>
+                    <td class="paymentProductName">
+                      {{method.cardBrand}}
+                    </td>
+                    <td class="creditCardHolder">
+                      {{method.accountHolderName}}
+                    </td>
+                    <td class="maskedCreditCardNumber">
+                      <span class="creditCardHolder">{{method.accountHolderName}}</span>
+                      {{method.alias}}
+                    </td>
+                    <td class="creditCardExpiration">
+                      {{method.expiryMonth}}/{{method.expiryYear}}
+                    </td>
+                  </tr>
+                  <!-- TokenizationForm-->
+                  <ng-container *ngIf="isHostedTokenization$(checkoutMethod) && isSelectedRadioButton(method.id)"
+                                [ngTemplateOutletContext]="{method:method}" [ngTemplateOutlet]="tokenizationForm">
+                  </ng-container>
+                </ng-container>
+                <!-- Use new card Label -->
+                <tr *ngIf="saved !=null && saved.length" class="card-row selected">
+                  <td colspan="5">
+                    {{ 'tokenization.otherPayments' | cxTranslate }}
+                  </td>
+                </tr>
+                <!-- Display list of payment modes -->
+                <ng-container *ngFor="let method of paymentMethods">
+                  <tr (click)="selectRadio(method)"
+                    *ngIf="(isHostedTokenization$(checkoutMethod) || !isNewCardPaymentMethod$(method))" class="card-row">
+                    <td [attr.colspan]="isNewCardPaymentMethod$(method) ?5:1" class="radioButton">
+                      <input [value]="method.id" formControlName="paymentProductId"
+                             id="paymentMethod-{{ method.id }}"
+                             role="radio" type="radio" [checked]="isChecked(method.id)" />
+                      <img *ngIf="!isNewCardPaymentMethod$(method) && method.displayHints.logo"
+                           [attr.src]="method.displayHints.logo"
+                           class="logo"/>
+                      <span *ngIf="isNewCardPaymentMethod$(method)" style="line-height: 2em; padding: 20px">
+                          {{ 'paymentMethod.useNewCardLabel' | cxTranslate }}
+                      </span>
+
+                      <!-- Hidden INPUT fields only for GooglePay -->
+                      <ng-container *ngIf="method.id==googlePayMethodID$">
+                        <input type="hidden" path="googlePayEncryptedPaymentData" formControlName="googlePayEncryptedPaymentData"/>
+                        <input type="hidden" path="googlePayMobileDevice" formControlName="googlePayMobileDevice"/>
+                        <div #googlePayBtn></div>
+                      </ng-container>
+                    </td>
+                    <td *ngIf="!isNewCardPaymentMethod$(method)" [colSpan]="4">
+                      {{ method.displayHints.label }}
+                    </td>
+                  </tr>
+                  <ng-container
+                    *ngIf="isNewCardPaymentMethod$(method) && isHostedTokenization$(checkoutMethod) && isSelectedRadioButton(method.id)"
+                    [ngTemplateOutletContext]="{method:method}" [ngTemplateOutlet]="tokenizationForm">
+                  </ng-container>
+                </ng-container>
+              </table>
+            </fieldset>
+            <div *ngFor="let method of paymentMethods" class="form-check">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 col-lg-9">
+            <!-- BILLING -->
+            <div class="cx-payment-form-billing">
+              <div class="cx-payment-form-billing-address">
+                {{ 'paymentForm.billingAddress' | cxTranslate }}
+              </div>
+
+              <!-- SAME AS SHIPPING CHECKBOX -->
+              <ng-container *ngIf="showSameAsShippingAddressCheckbox$ | async">
+                <div class="form-group">
+                  <div class="form-check">
+                    <label>
+                      <input (change)="toggleSameAsShippingAddress()" [checked]="sameAsShippingAddress"
+                             class="form-check-input"
+                             type="checkbox"/>
+                      <span class="form-check-label">{{
+                        'paymentForm.sameAsDeliveryAddress' | cxTranslate
+                        }}</span>
+                    </label>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- BILLING INFO COMPONENT -->
+              <ng-container *ngIf="
+                sameAsShippingAddress && shippingAddress$
+                  | async as shippingAddress;
+                else billingAddress
+              ">
+                <cx-card [content]="getAddressCardContent(shippingAddress)"></cx-card>
+              </ng-container>
+
+              <ng-template #billingAddress>
+                <div [formGroup]="billingAddressForm">
+                  <div class="form-group" formGroupName="country">
+                    <ng-container *ngIf="countries$ | async as countries">
+                      <div *ngIf="countries.length !== 0">
+                        <label aria-required="true">
+                      <span class="label-content required">{{
+                        'addressForm.country' | cxTranslate
+                        }}</span>
+                          <ng-select (change)="countrySelected($event)" [clearable]="false" [items]="countries"
+                                     [searchable]="true"
+                                     bindLabel="name" bindValue="isocode" formControlName="isocode" placeholder="{{
+                            'addressForm.selectOne' | cxTranslate
+                          }}">
+                          </ng-select>
+                          <cx-form-errors [control]="billingAddressForm.get('country.isocode')"></cx-form-errors>
+                        </label>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="form-group">
+                    <label>
+                  <span class="label-content required">{{
+                    'addressForm.firstName.label' | cxTranslate
+                    }}</span>
+                      <input class="form-control" formControlName="firstName" placeholder="{{
+                        'addressForm.firstName.placeholder' | cxTranslate
+                      }}" type="text"/>
+                      <cx-form-errors [control]="billingAddressForm.get('firstName')"></cx-form-errors>
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label>
+                  <span class="label-content required">{{
+                    'addressForm.lastName.label' | cxTranslate
+                    }}</span>
+                      <input class="form-control" formControlName="lastName" placeholder="{{
+                        'addressForm.lastName.placeholder' | cxTranslate
+                      }}" type="text"/>
+                      <cx-form-errors [control]="billingAddressForm.get('lastName')"></cx-form-errors>
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label>
+                  <span class="label-content required">{{
+                    'addressForm.address1' | cxTranslate
+                    }}</span>
+                      <input class="form-control" formControlName="line1" placeholder="{{
+                        'addressForm.streetAddress' | cxTranslate
+                      }}" type="text"/>
+                      <cx-form-errors [control]="billingAddressForm.get('line1')"></cx-form-errors>
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label>
+                  <span class="label-content">{{
+                    'addressForm.address2' | cxTranslate
+                    }}</span>
+                      <input class="form-control" formControlName="line2"
+                             placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
+                             type="text"/>
+                    </label>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>
+                    <span class="label-content required">{{
+                      'addressForm.city.label' | cxTranslate
+                      }}</span>
+                        <input class="form-control" formControlName="town" placeholder="{{
+                          'addressForm.city.placeholder' | cxTranslate
+                        }}" type="text"/>
+                        <cx-form-errors [control]="billingAddressForm.get('town')"></cx-form-errors>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>
+                    <span class="label-content required">{{
+                      'addressForm.zipCode.label' | cxTranslate
+                      }}</span>
+                        <input class="form-control" formControlName="postalCode" placeholder="{{
+                          'addressForm.zipCode.placeholder' | cxTranslate
+                        }}" type="text"/>
+                        <cx-form-errors [control]="billingAddressForm.get('postalCode')"></cx-form-errors>
+                      </label>
+                    </div>
+                    <ng-container *ngIf="regions$ | async as regions" formGroupName="region">
+                      <ng-container *ngIf="regions.length !== 0">
+                        <div class="form-group col-md-6">
+                          <label aria-required="true">
+                        <span class="label-content required">{{
+                          'addressForm.state' | cxTranslate
+                          }}</span>
+                            <ng-select [clearable]="false" [items]="regions" [searchable]="true"
+                                       bindLabel="{{
+                              regions[0].name ? 'name' : 'isocodeShort'
+                            }}" bindValue="{{
+                              regions[0].name ? 'isocodeShort' : 'region'
+                            }}" class="region-select" formControlName="isocodeShort" placeholder="{{
+                              'addressForm.selectOne' | cxTranslate
+                            }}">
+                            </ng-select>
+                            <cx-form-errors [control]="
+                              billingAddressForm.get('region.isocodeShort')
+                            "></cx-form-errors>
+                          </label>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="!continueButtonPressed">
+          <div class="row cx-checkout-btns">
+            <div class="col-md-12 col-lg-6">
+              <button (click)="back()" class="btn btn-block btn-action">
+                {{ backBtnText | cxTranslate }}
+              </button>
+            </div>
+            <div class="col-md-12 col-lg-6">
+              <button [disabled]="(getDisallowSubmit$ | async) || isBillingAddressInvalid"
+                      class="btn btn-block btn-primary"
+                      type="submit">
+                {{ 'common.continue' | cxTranslate }}
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </form>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #tokenizationForm let-method="method">
+    <tr>
+      <td colspan="5">
+        <div class="hostedTokenization" id="hostedTokenization-{{method.id}}"></div>
+        <div class="cx-msg" *ngIf="displayHTPReplenishmentMessage$">
+          {{ 'replenishmentMessages.HTP-remember-payment-details' | cxTranslate }}
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+</ng-container>

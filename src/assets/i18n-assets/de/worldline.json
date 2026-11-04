@@ -1,0 +1,45 @@
+{
+  "paymentMethod": {
+    "title": "Zahlungsdetails",
+    "useNewCardLabel": "Neue Karte verwenden",
+    "issuerLabel": "Emittent",
+    "issuerDefaultOption": "Aussteller auswählen",
+    "paymentRejected": "Ihre Zahlung wurde abgelehnt. Bitte versuchen Sie es erneut.",
+    "paymentCancelled": "Zahlung storniert! Bitte wählen Sie eine neue Zahlungsmethode.",
+    "payByLink": "Pay By Link"
+  },
+  "tokenization": {
+    "otherPayments": "Andere Zahlungsmethode",
+    "useSavedCard": "Gespeicherte Karte verwenden",
+    "do": "Jetzt bezahlen",
+    "dialogTitle": "Gespeicherte Karten",
+    "cardNumber": "Kartennummer",
+    "cardholdersName": "Name des Karteninhabers",
+    "expiryDate": "Ablaufdatum",
+    "useCard": "Karte verwenden"
+  },
+  "worldlineCheckoutReview": {
+    "endOn": "End On",
+    "recurrencePeriodType_DAILY": "Tag(s)",
+    "recurrencePeriodType_WEEKLY": "Woche(n)",
+    "recurrencePeriodType_YEARLY": "Jährlich",
+    "recurrencePeriodType_MONTHLY": "Monat(e)",
+    "repeatOnMonths": "Alle # Monate wiederholen"
+
+  },
+  "mandate": {
+    "info": "MANDATUMSINFORMATIONEN",
+    "address": "MANDATADRESSE"
+  },
+  "surcharge": {
+    "message": "Bitte beachten Sie, dass je nach gewählter Zahlungsmethode ein Aufschlag zu dem zu zahlenden Betrag hinzukommen kann.",
+    "surcharge": "Zuschlag",
+    "testMessage": "Testnachricht"
+  },
+  "replenishmentMessages": {
+    "enable-replenishment": "Bitte erstellen Sie ein Konto oder melden Sie sich an, um eine Nachbestellung aufzugeben",
+    "error-message-payment-method": "Bitte stellen Sie sicher, dass Sie die Speicherung Ihrer Zahlungsdaten für Ihre Nachbestellung aktivieren."
+    "HTP-remember-payment-details": "Bitte aktivieren Sie die Option, Ihre Zahlungsdaten für Ihre Nachbestellung zu speichern."
+    "HOP-remember-payment-details": "Mit der Aufgabe einer Nachbestellung stimme ich zu, dass meine Zahlungsdaten für die Dauer meines Abonnements gespeichert werden."
+  }
+}

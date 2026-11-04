@@ -1,0 +1,55 @@
+@import "@spartacus/checkout/base/styles/mixins/checkout-media-style";
+app-worldline-payment-method {
+    @include checkout-media-style();
+    @include media-breakpoint-down(md) {
+        padding: 20px 0;
+    }
+
+    .cx-payment-form-tooltip {
+        margin: 0 0 0 0.1875rem;
+        font-size: 18px;
+        position: relative;
+        top: 2px;
+        color: var(--cx-color-secondary);
+      }
+
+      .cx-payment-form-billing {
+        margin: 0 0 1.25rem 0;
+
+        .form-check {
+            margin: 0;
+        }
+      }
+
+      .cx-payment-form-billing-address {
+        @include type('4');
+        padding: 0.875rem 0 1.25rem 0;
+      }
+
+      .cx-payment-form-exp-date {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        &-wrapper {
+          flex: 1;
+
+          &:first-of-type {
+            padding-inline-end: 1rem;
+          }
+        }
+      }
+
+    .logo {
+        margin-left: 1rem;
+    }
+
+    .issuer {
+        padding-top: 1rem;
+    }
+
+    .hostedTokenization iframe {
+      width: 100%;
+      border: none;
+  }
+}

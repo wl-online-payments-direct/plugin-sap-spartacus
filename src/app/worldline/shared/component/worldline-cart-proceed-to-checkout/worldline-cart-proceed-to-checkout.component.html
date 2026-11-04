@@ -1,0 +1,5 @@
+<cx-progress-button (clickEvent)="disableButtonWhileNavigation(); saveReplenishmentData()"
+    [class]="'btn btn-primary btn-block'" [disabled]="disablePlaceOrderBtnInternal || cartValidationInProgress"
+    [loading]="cartValidationInProgress" [routerLink]="{ cxRoute: 'checkout' } | cxUrl" tabindex="-1"> {{
+    (!cartValidationInProgress ? 'cartDetails.proceedToCheckout' : '') | cxTranslate }}
+</cx-progress-button>

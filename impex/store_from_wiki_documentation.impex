@@ -1,0 +1,84 @@
+# Template Variables
+$htpTemplate = HTPTemplate.html
+$htpTemplate = HTPTemplate11_Full.html
+
+# Worldline Configuration
+INSERT_UPDATE WorldlineConfiguration ; merchantID[unique = true]    ; apiKey               ; apiSecret                                                                                                                        ; webhookKeyId                   ; webhookSecret                                                                                                                    ; variant      ; defaultOperationCode(code) ; endpointURL
+                                     ; greenlightcommerce1          ; B98737C4BD47034DA7F0 ; tFC/7cmgKZSeaQWSHWWO+knHEuOQ3ANiN8HAaHdVHJ54T1thVFx/cwAD6yeevcoGaPXDiir8nQ6LyXfv01jP9w==                                         ; dfe212d95b794eb5971331c8f0ea82 ; ec73cb3b-e771-4fcb-a393-2bd6711351c9                                                                                             ; $htpTemplate ; SALE                       ; https://payment.preprod.direct.worldline-solutions.com
+                                     ; greenlightcommerceAP         ; 052BEFE7F9CD932D58D1 ; NGMyZmU0M2EtMjYzMi00YmFkLWI2YjMtYTcyZTJjZTI3ZTNi                                                                                 ; dfe212d95b794eb5971331c8f0ea82 ; ec73cb3b-e771-4fcb-a393-2bd6711351c9                                                                                             ; $htpTemplate ; SALE                       ; https://payment.preprod.direct.worldline-solutions.com
+                                     ; Sales4sSurchargeTestMerchant ; 88F7FFB04C05168D933E ; E11AE1A39D5A25F757137018226631CA85A844CC8A4B342E1E843457C587CCDCA87E274B2AEC4D7934223EEE7CDE8C102FB405F16AD2616030E857A50F27223A ; 61471108437A20481E11           ; 458E153890AC52D63ED19064BC04A77A5EE5A20726D316CA18276436EA0ACEA13BCC38F34C9632A57ED125942FD5B702F3821426134C9095553233A804CFE500 ; $htpTemplate ; SALE                       ; https://payment.preprod.direct.worldline-solutions.com
+
+# Base Store Updates - Payment Provider and Checkout Flow
+UPDATE BaseStore ; uid[unique = true] ; paymentProvider ; checkoutFlowGroup                   ; submitOrderProcessCode  ; createReturnProcessCode
+                 ; apparel-uk         ; WORLDLINE       ; worldlineB2CResponsiveCheckoutGroup ; worldline-order-process ; worldline-return-process
+                 ; apparel-de         ; WORLDLINE       ; worldlineB2CResponsiveCheckoutGroup ; worldline-order-process ; worldline-return-process
+                 ; powertools         ; WORLDLINE       ; worldlineB2BCheckoutGroup           ; worldline-order-process ; worldline-return-process
+
+# Base Store Updates - Worldline Configuration and Currency
+UPDATE BaseStore ; uid[unique = true] ; worldlineConfiguration(merchantID) ; defaultCurrency(isocode) ; currencies(isocode) ; returnUrl
+                 ; apparel-uk         ; Sales4sSurchargeTestMerchant       ; EUR                      ; EUR,GBP             ; https://localhost:4200/%s/%s?user=%s&order=%s&orderType=%s&cartId=%s
+                 ; apparel-de         ; Sales4sSurchargeTestMerchant       ; EUR                      ; EUR                 ; https://localhost:4200/%s/%s?user=%s&order=%s&orderType=%s&cartId=%s
+                 ; powertools         ; greenlightcommerce1                ; EUR                      ; EUR                 ; https://localhost:4200/%s/%s?user=%s&order=%s&orderType=%s&cartId=%s
+
+# Base Store Updates - Delivery Countries (DE)
+UPDATE BaseStore ; uid[unique = true] ; deliveryCountries(isocode)[mode = append]
+                 ; apparel-uk         ; DE
+                 ; apparel-de         ; DE
+                 ; powertools         ; DE
+
+# Base Store Updates - Delivery Countries (NL)
+UPDATE BaseStore ; uid[unique = true] ; deliveryCountries(isocode)[mode = append]
+                 ; apparel-uk         ; NL
+                 ; apparel-de         ; NL
+                 ; powertools         ; NL
+
+# Zone Delivery Mode Values - UK Zone
+INSERT_UPDATE ZoneDeliveryModeValue ; deliveryMode(code)[unique = true] ; zone(code)[default = 'uk'][unique = true] ; currency(isocode)[unique = true] ; value ; minimum[unique = true]
+                                    ; premium-gross                     ;                                           ; EUR                              ; 10,99 ; 0,00
+                                    ; standard-gross                    ;                                           ; EUR                              ; 9,99  ; 0,00
+                                    ; premium-net                       ;                                           ; EUR                              ; 10,99 ; 0,00
+                                    ; standard-net                      ;                                           ; EUR                              ; 9,99  ; 0,00
+
+# Zone Delivery Mode Values - Continental Europe
+INSERT_UPDATE ZoneDeliveryModeValue ; deliveryMode(code)[unique = true] ; zone(code)[default = 'continentalEurope'][unique = true] ; currency(isocode)[unique = true] ; value ; minimum[unique = true]
+                                    ; premium-gross                     ;                                                          ; EUR                              ; 11,99 ; 0,00
+                                    ; standard-gross                    ;                                                          ; EUR                              ; 69,99 ; 0,00
+                                    ; premium-net                       ;                                                          ; EUR                              ; 11,99 ; 0,00
+                                    ; standard-net                      ;                                                          ; EUR                              ; 69,99 ; 0,00
+
+
+
+INSERT_UPDATE Currency ; isocode[unique = true] ; name[lang = en]      ; active ; base  ; conversion ; digits ; symbol ; baseStores(uid)[mode = append] ; facetSearchConfigs(name)
+                       ; GBP                    ; Pound sterling       ; true   ; true  ; 1          ; 2      ; £      ; apparel-uk                     ; apparel-ukIndex
+                       ; AED                    ; UAE Dirham           ; true   ; false ; 5.02       ; 2      ; AED    ; apparel-uk                     ; apparel-ukIndex
+                       ; AUD                    ; Australian dollar    ; true   ; false ; 1.88       ; 2      ; AU$    ; apparel-uk                     ; apparel-ukIndex
+                       ; CHF                    ; Swiss franc          ; true   ; false ; 3.96       ; 2      ; CHF    ; apparel-uk                     ; apparel-ukIndex
+                       ; DKK                    ; Danish Krone         ; true   ; false ; 8.67       ; 2      ; Kr.    ; apparel-uk                     ; apparel-ukIndex
+                       ; EUR                    ; Euro                 ; true   ; false ; 1.17       ; 2      ; €      ; apparel-uk                     ; apparel-ukIndex
+                       ; HKD                    ; Hong Kong dollar     ; true   ; false ; 10.64      ; 2      ; HK$    ; apparel-uk                     ; apparel-ukIndex
+                       ; HRK                    ; Croatian Kuna        ; true   ; false ; 8.75       ; 2      ; kn     ; apparel-uk                     ; apparel-ukIndex
+                       ; JPY                    ; Japanese Yen         ; true   ; false ; 1.5        ; 0      ; ¥      ; apparel-uk                     ; apparel-ukIndex
+                       ; MYR                    ; Malaysian Ringgit    ; true   ; false ; 5.73       ; 2      ; RM     ; apparel-uk                     ; apparel-ukIndex
+                       ; NOK                    ; Norwegian Krone      ; true   ; false ; 11.92      ; 2      ; kr     ; apparel-uk                     ; apparel-ukIndex
+                       ; NZD                    ; New Zealand Dollar   ; true   ; false ; 1.94       ; 2      ; $      ; apparel-uk                     ; apparel-ukIndex
+                       ; PLN                    ; Polish złoty         ; true   ; false ; 5.37       ; 2      ; zł     ; apparel-uk                     ; apparel-ukIndex
+                       ; SEK                    ; Swedish Krona        ; true   ; false ; 11.90      ; 2      ; kr     ; apparel-uk                     ; apparel-ukIndex
+                       ; SGD                    ; Singapore Dollar     ; true   ; false ; 1.85.54    ; 2      ; S$     ; apparel-uk                     ; apparel-ukIndex
+                       ; USD                    ; United States Dollar ; true   ; false ; 1.37       ; 2      ; $      ; apparel-uk                     ; apparel-ukIndex
+INSERT_UPDATE ZoneDeliveryModeValue ; currency(isocode)[unique = true] ; deliveryMode(code)[unique = true] ; minimum ; value ; zone(code)[unique = true] ;
+                                    ; PLN                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; AED                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; AUD                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; CHF                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; DKK                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; EUR                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; HKD                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; HRK                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; JPY                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; MYR                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; NOK                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; NZD                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; PLN                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; SEK                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; SGD                              ; standard-gross                    ; 12      ; 123   ; uk
+                                    ; USD                              ; standard-gross                    ; 12      ; 123   ; uk

@@ -1,0 +1,22 @@
+<div class="cx-mandate-detail">
+  <div class="container">
+    <ng-container>
+      <div class="cx-mandate-card">
+        <cx-card
+          [content]="
+            getMandateInfo(order?.worldlinePaymentInfo?.mandateDetail) | async"></cx-card>
+      </div>
+
+    </ng-container>
+
+    <ng-container>
+      <div class="cx-mandate-card">
+        <cx-card
+          [content]="
+            getMandateAddress(order?.worldlinePaymentInfo?.mandateDetail) | async"></cx-card>
+      </div>
+
+    </ng-container>
+
+  </div>
+</div>

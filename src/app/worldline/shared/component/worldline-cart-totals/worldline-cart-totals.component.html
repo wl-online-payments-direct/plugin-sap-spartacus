@@ -1,0 +1,4 @@
+<ng-container *ngIf="cart$ | async as cart">
+  <cx-order-summary [cart]="cart"></cx-order-summary>
+  <worldline-schedule-replenishment-order></worldline-schedule-replenishment-order>
+</ng-container>

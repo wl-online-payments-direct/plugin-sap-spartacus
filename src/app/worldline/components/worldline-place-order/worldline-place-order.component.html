@@ -1,0 +1,37 @@
+<form (ngSubmit)="worldlineSubmitForm()" class="cx-place-order-form form-check" [formGroup]="checkoutSubmitForm">
+    <div class="form-group" *ngIf="tokenizeCardPayment$ | async">
+      <label>
+        <input formControlName="tokenizeHOPPayment" class="scaled-input form-check-input" type="checkbox" />
+        <span class="form-check-label">
+                  {{ 'replenishmentMessages.HOP-remember-payment-details' | cxTranslate }}
+              </span>
+      </label>
+    </div>
+    <div class="form-group">
+        <label>
+            <input formControlName="termsAndConditions" class="scaled-input form-check-input" type="checkbox" />
+            <span class="form-check-label">
+                {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
+                <a [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl" class="cx-tc-link" target="_blank">
+                    {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
+                </a>
+            </span>
+        </label>
+    </div>
+
+  <ng-container *ngIf="currentOrderType === 'PLACE_ORDER' || !tokenizeCardPayment$; else SCHEDULED_ORDER">
+    <button type="submit" class="btn btn-primary btn-block" [disabled]="termsAndConditionInvalid">
+      {{ 'checkoutReview.placeOrder' | cxTranslate }}
+    </button>
+  </ng-container>
+  <ng-template #SCHEDULED_ORDER>
+    <ng-container *ngIf="tokenizeCardPayment$; else HTP">
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="termsAndConditionInvalid">
+        {{ 'checkoutReview.placeOrder' | cxTranslate }}
+      </button>
+    </ng-container>
+
+  </ng-template>
+
+
+</form>

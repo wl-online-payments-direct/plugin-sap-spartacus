@@ -1,0 +1,45 @@
+{
+  "paymentMethod": {
+    "title": "Detalles de pago",
+    "useNewCardLabel": "Usar tarjeta nueva",
+    "issuerLabel": "Emisor",
+    "issuerDefaultOption": "Seleccionar emisor",
+    "paymentRejected": "Su pago ha sido rechazado. Por favor, inténtelo de nuevo.",
+    "paymentCancelled": "¡Pago cancelado! Por favor, seleccione un nuevo método de pago.",
+    "payByLink": "Pagar mediante enlace"
+  },
+  "tokenization": {
+    "otherPayments": "Otro método de pago",
+    "useSavedCard": "Usar tarjeta guardada",
+    "do": "Pagar ahora",
+    "dialogTitle": "Tarjetas guardadas",
+    "cardNumber": "Número de tarjeta",
+    "cardholdersName": "Nombre del titular de la tarjeta",
+    "expiryDate": "Fecha de caducidad",
+    "useCard": "Usar tarjeta"
+  },
+  "worldlineCheckoutReview": {
+    "endOn": "Finalizar en",
+    "recurrencePeriodType_DAILY": "Día(s)",
+    "recurrencePeriodType_WEEKLY": "Semana(s)",
+    "recurrencePeriodType_YEARLY": "Anual",
+    "recurrencePeriodType_MONTHLY": "Mes(s)",
+    "repeatOnMonths": "Repetir cada # meses"
+
+  },
+  "mandate": {
+    "info": "INFORMACIÓN DEL MANDATO",
+    "address": "DIRECCIÓN DEL MANDATO"
+  },
+  "surcharge": {
+    "message": "Tenga en cuenta que se puede añadir un recargo al importe que debe pagar en función del método de pago que haya elegido.",
+    "surcharge": "Recargo",
+    "testMessage": "Mensaje de prueba"
+  },
+  "replenishmentMessages": {
+    "enable-replenishment": "Por favor, cree una cuenta o inicie sesión para realizar un pedido de reposición",
+    "error-message-payment-method": "Asegúrese de aceptar guardar sus datos de pago para su pedido de reposición.",
+    "HTP-remember-payment-details": "Por favor, active la opción para guardar sus datos de pago para su pedido de reposición.",
+    "HOP-remember-payment-details": "Al realizar un pedido de reposición, acepto que mis datos de pago se guarden durante la vigencia de mi suscripción."
+  }
+}

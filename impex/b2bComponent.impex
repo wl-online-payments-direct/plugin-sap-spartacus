@@ -1,0 +1,140 @@
+$contentCatalog=powertools-spaContentCatalog
+$version=Staged
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=$version])[default=$contentCatalog:$version]
+$contentCatalog=powertools-spaContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=$version])[default=$contentCatalog:$version]
+
+### Order totals components
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+;;WorldlineCheckoutOrderSummaryComponent;Worldline Checkout Summary Component;WorldlineCheckoutOrderSummary
+;;WorldlineOrderDetailTotalsComponent;Worldline Order Detail Totals Component;WorldlineOrderDetailTotals
+
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+;;WorldlineCheckoutProgressComponent;Worldline Checkout Progress Component;WorldlineCheckoutProgress
+;;WorldlineCheckoutProgressMobileTopComponent;Worldline Checkout Progress Mobile Top Component;WorldlineCheckoutProgressMobileTop
+;;WorldlineCheckoutProgressMobileBottomComponent;Worldline Checkout Progress Mobile Bottom Component;WorldlineCheckoutProgressMobileBottom
+
+## Shipping address page (/checkout/delivery-address)
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;cmsComponents(uid, $contentCV)
+;;BodyContentSlot-checkoutDeliveryAddress;Checkout Shipping Address Slot;WorldlineCheckoutProgressComponent,WorldlineCheckoutProgressMobileTopComponent,CheckoutCostCenterComponent,CheckoutDeliveryAddressComponent,WorldlineCheckoutProgressMobileBottomComponent
+
+## Delivery mode page (/checkout/delivery-mode)
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;cmsComponents(uid, $contentCV)
+;;BodyContentSlot-checkoutDeliveryMode;Checkout Delivery Mode Slot;WorldlineCheckoutProgressComponent,WorldlineCheckoutProgressMobileTopComponent,CheckoutDeliveryModeComponent,WorldlineCheckoutProgressMobileBottomComponent
+
+## Direct payment details page (/checkout/worldline-payment-method)
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
+                         ;;worldlineCheckoutPaymentMethodsPage;Checkout Worldline Payment Details Page;MultiStepCheckoutSummaryPageTemplate;/checkout/worldline-payment-method
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;cmsComponents(uid, $contentCV)
+                         ;;BodyContentSlot-worldlineCheckoutPaymentMethods;Worldline Checkout Payment Details Slot;WorldlineCheckoutProgressComponent,WorldlineCheckoutProgressMobileTopComponent,WorldlinePaymentMethodComponent,WorldlineCheckoutProgressMobileBottomComponent
+                         ;;SideContentSlot-worldlineCheckoutPaymentMethods;Worldline Order Summary Slot;WorldlineCheckoutOrderSummaryComponent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true]
+                                ;;BodyContent-worldlineCheckoutPaymentMethods;BodyContent;worldlineCheckoutPaymentMethodsPage;BodyContentSlot-worldlineCheckoutPaymentMethods
+                                ;;SideContent-worldlineCheckoutPaymentMethods;SideContent;worldlineCheckoutPaymentMethodsPage;SideContentSlot-worldlineCheckoutPaymentMethods
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+                              ;;WorldlinePaymentMethodComponent;WorldlinePaymentMethodComponent;WorldlinePaymentMethodComponent
+
+## Cart review page (/checkout/worldline-order-review)
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
+                         ;;worldlineOrderReview;Checkout Worldline Order Preview Page;MultiStepCheckoutSummaryPageTemplate;/checkout/worldline-order-review
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+                              ;;WorldlineReviewOrderSpaComponent;WorldlineReviewOrderSpaComponent;WorldlineOrderReview
+
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+                              ;;WorldlinePlaceOrderComponent;WorldlinePlaceOrderComponent;WorldlinePlaceOrder
+                              ;;WorldlineCheckoutScheduleReplenishmentOrderComponent;WorldlineCheckoutScheduleReplenishmentOrderComponent;WorldlineCheckoutScheduleReplenishmentOrderComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;cmsComponents(uid, $contentCV)
+;;BodyContentSlot-worldlineOrderReview;Checkout Order Preview Slot;WorldlineCheckoutProgressComponent,WorldlineCheckoutProgressMobileTopComponent,WorldlineReviewOrderSpaComponent,WorldlineCheckoutProgressMobileBottomComponent
+;;SideContentSlot-worldlineOrderReview;Order Summary Slot;WorldlineCheckoutOrderSummaryComponent,WorldlinePlaceOrderComponent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true]
+;;BodyContent-worldlineOrderReview;BodyContent;worldlineOrderReview;BodyContentSlot-worldlineOrderReview
+;;SideContent-worldlineOrderReview;SideContent;worldlineOrderReview;SideContentSlot-worldlineOrderReview
+
+
+#hostedcheckout holder
+
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+                          ;;WorldlinePaymentPageTemplate;Woldline Payment Page Template;layout/contentLayout1Page;ContentPage
+
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
+ ;;hostedcheckout;Checkout Checkout Payment Page;WorldlinePaymentPageTemplate;/hostedcheckout
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+;;WorldlineHostedCheckoutResponse;WorldlineHostedCheckoutResponse;WorldlineHostedCheckoutResponse
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;cmsComponents(uid, $contentCV)
+;;Section2A-worldlineHostedCheckoutResponse;Hosted checkout response;WorldlineHostedCheckoutResponse
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true]
+;;Section2A-worldlineHostedCheckoutResponse;Section2A;hostedcheckout;Section2A-worldlineHostedCheckoutResponse
+
+#hostedtokenization-3ds holder
+
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
+ ;;hostedtokenization-3ds;Checkout Checkout Payment Page;WorldlinePaymentPageTemplate;/hostedtokenization-3ds
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+;;WorldlineTokenization3DS;WorldlineTokenization3DS;WorldlineTokenization3DS
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;cmsComponents(uid, $contentCV)
+;;Section2A-WorldlineTokenization3DS;Hosted checkout response;WorldlineTokenization3DS
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true]
+;;Section2A-WorldlineTokenization3DS;Section2A;hostedtokenization-3ds;Section2A-WorldlineTokenization3DS
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType;&componentRef
+ ;;AccountWorldlinePaymentDetailsComponent;Account Payment Details Component;AccountWorldlinePaymentDetailsComponent;AccountWorldlinePaymentDetailsComponent
+
+UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid, $contentCV)
+ ;;BodyContent-payment-details;AccountWorldlinePaymentDetailsComponent
+
+
+#order Confirmation
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType;&componentRef
+;;WorldlineReplenishmentConfirmationOverviewComponent;Worldline Replenishment Confirmation Overview Component;WorldlineReplenishmentConfirmationOverviewComponent;WorldlineReplenishmentConfirmationOverviewComponent
+;;WorldlineOrderConfirmationOverviewComponent;Worldline Order Confirmation Overview Info Component;WorldlineOrderConfirmationOverviewComponent;WorldlineOrderConfirmationOverviewComponent;WorldlineOrderConfirmationOverviewComponent
+;;WorldlineOrderConfirmationMandateDetailsComponent;Worldline Order Confirmation Mandate Detail Component;WorldlineOrderConfirmationMandateDetailsComponent;WorldlineOrderConfirmationMandateDetailsComponent
+
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid, $contentCV)
+;;BodyContent-replenishmentConfirmation;ReplenishmentConfirmationMessageComponent,WorldlineReplenishmentConfirmationOverviewComponent,ReplenishmentConfirmationItemsComponent,WorldlineOrderConfirmationMandateDetailsComponent,ReplenishmentConfirmationShippingComponent,ReplenishmentConfirmationTotalsComponent,ReplenishmentConfirmationContinueButtonComponent
+;;BodyContent-orderConfirmation;OrderConfirmationThankMessageComponent,WorldlineOrderConfirmationOverviewComponent,OrderConfirmationItemsComponent,WorldlineOrderConfirmationMandateDetailsComponent,OrderConfirmationShippingComponent,OrderConfirmationTotalsComponent,OrderConfirmationContinueButtonComponent
+
+
+#Account page
+###### Account Order Details Page Start ######
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+                              ;;WorldlineMyAccountOrderMandateDetailsComponent;Worldline My Account Order Mandate Detail Component;WorldlineMyAccountOrderMandateDetailsComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid, $contentCV);
+                         ;;BodyContent-orderdetail;Body Content Slot for My Account Order Details;true;AccountOrderDetailsShippingComponent,AccountOrderDetailsItemsComponent,WorldlineMyAccountOrderMandateDetailsComponent,AccountOrderDetailsTotalsComponent,AccountOrderDetailsApprovalDetailsComponent,AccountOrderDetailsReorderComponent
+
+
+
+## Replenishment Detail Page ##
+
+INSERT_UPDATE CMSFlexComponent;$contentCV[unique=true];uid[unique=true];name;flexType
+                              ;;WorldlineMyAccountReplenishmentMandateDetailsComponent;Worldline My Account Replenishment Mandate Detail Component;WorldlineMyAccountReplenishmentMandateDetailsComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid, $contentCV)
+                         ;;BodyContent-my-replenishment-details;ReplenishmentDetailShippingComponent,ReplenishmentDetailItemsComponent,WorldlineMyAccountReplenishmentMandateDetailsComponent,ReplenishmentDetailTotalsComponent,ReplenishmentDetailActionsComponent,ReplenishmentDetailOrderHistoryComponent
+
+
+
+
+
+
+
+
+
+

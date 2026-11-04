@@ -1,0 +1,108 @@
+.payment_product{
+  margin-top: 20px;
+}
+.payment_product_logo {
+  margin: 10px;
+  box-shadow: 3px 3px 8px 0 rgb(0 0 0 / 30%);
+  max-width: 45px;
+}
+
+@media only screen and (max-width: 1026px) {
+  .card-brand {
+    display: none;
+  }
+}
+
+
+.credit-card-selector-block table {
+  width: 100%
+}
+
+.credit-card-selector-block table caption {
+  caption-side: top;
+  margin-top: 20px;
+  padding: 0 0 0 10px;
+  color: inherit;
+  font-weight: 500
+}
+
+.credit-card-selector-block table tr.card-row.selected td, .credit-card-selector-block table tr.card-row:hover td {
+  background-color: #eee;
+  cursor: pointer
+}
+
+.credit-card-selector-block table tr td, .credit-card-selector-block table tr th {
+  padding: 10px;
+  line-height: 1em;
+  vertical-align: top
+}
+
+@media only screen and (min-width: 1200px) {
+  .credit-card-selector-block table tr td, .credit-card-selector-block table tr th {
+    vertical-align: middle
+  }
+}
+
+.credit-card-selector-block table tr td:first-child, .credit-card-selector-block table tr th:first-child {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px
+}
+
+.credit-card-selector-block table tr td:last-child, .credit-card-selector-block table tr th:last-child {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px
+}
+
+.credit-card-selector-block table tr td.radioButton, .credit-card-selector-block table tr th.radioButton {
+  white-space: nowrap
+}
+
+.credit-card-selector-block table tr td.maskedCreditCardNumber span.creditCardHolder, .credit-card-selector-block table tr th.maskedCreditCardNumber span.creditCardHolder {
+  display: block;
+  color: #6c757d;
+  margin-bottom: 5px
+}
+
+@media only screen and (min-width: 1200px) {
+  .credit-card-selector-block table tr td.maskedCreditCardNumber span.creditCardHolder, .credit-card-selector-block table tr th.maskedCreditCardNumber span.creditCardHolder {
+    display: none
+  }
+}
+
+.credit-card-selector-block table tr td.creditCardHolder, .credit-card-selector-block table tr td.paymentProductName, .credit-card-selector-block table tr th.creditCardHolder, .credit-card-selector-block table tr th.paymentProductName {
+  display: none
+}
+
+@media only screen and (min-width: 1200px) {
+  .credit-card-selector-block table tr td.creditCardHolder, .credit-card-selector-block table tr td.paymentProductName, .credit-card-selector-block table tr th.creditCardHolder, .credit-card-selector-block table tr th.paymentProductName {
+    display: table-cell
+  }
+}
+
+.credit-card-selector-block table tr td #HostedTokenizationDiv, .credit-card-selector-block table tr th #HostedTokenizationDiv {
+  margin: 0 -20px
+}
+
+@media only screen and (min-width: 1200px) {
+  .credit-card-selector-block table tr td #HostedTokenizationDiv, .credit-card-selector-block table tr th #HostedTokenizationDiv {
+    margin: 0
+  }
+}
+
+.credit-card-selector-block table tr input {
+  vertical-align: middle;
+  margin-right: 5px
+}
+
+.credit-card-selector-block table tr .logo {
+  max-width: 50px
+}
+
+.credit-card-selector-block table tr.selected .card-details {
+  display: block
+}
+
+.radioButton input[type="radio"]{
+  position:relative;
+  margin-inline-start:unset;
+}

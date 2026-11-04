@@ -1,0 +1,167 @@
+import {Injectable, isDevMode, OnInit} from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+import { CheckoutStep, CheckoutDeliveryAddressFacade, CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
+import {CheckoutPaymentTypeFacade, CheckoutCostCenterFacade} from '@spartacus/checkout/b2b/root';
+import { CheckoutStepType } from '@spartacus/checkout/base/root/model';
+import {RoutingConfigService} from '@spartacus/core';
+import {combineLatest, Observable, of} from 'rxjs';
+import {map, switchMap, take, tap, filter} from 'rxjs/operators';
+import {CheckoutStepService} from "@spartacus/checkout/base/components";
+
+@Injectable({
+  providedIn: 'root',
+})
+export class WorldlineCheckoutStepsSetGuard implements CanActivate {
+  constructor(
+    protected paymentTypeService: CheckoutPaymentTypeFacade,
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected routingConfigService: RoutingConfigService,
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected router: Router
+  ) {
+  }
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    _: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
+    console.log("WorldlineCheckoutStepsSetGuard invoked for route:", route.routeConfig?.path);
+    let currentIndex = -1;
+    const currentRouteUrl = '/' + route.url.join('/');
+
+    // check whether the previous step is set
+    return combineLatest([
+      this.checkoutStepService.steps$,
+      this.paymentTypeService.isAccountPayment()
+    ]).pipe(
+      tap(([, isAccount]) => {
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.PAYMENT_DETAILS,
+          isAccount
+        );
+      }),
+      take(1),
+      switchMap(([steps, isAccount]) => {
+        currentIndex = steps.findIndex((step) => {
+          const stepRouteUrl = `/${
+            this.routingConfigService.getRouteConfig(step.routeName).paths?.[0]
+          }`;
+          return stepRouteUrl === currentRouteUrl;
+        });
+        // get current step
+        let currentStep;
+        if (currentIndex >= 0) {
+          currentStep = steps[currentIndex];
+        }
+        if (Boolean(currentStep)) {
+          return this.isStepSet(steps[currentIndex - 1], isAccount);
+        } else {
+          if (isDevMode()) {
+            console.warn(
+              `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
+            );
+          }
+          return of(this.getUrl('checkout'));
+        }
+      })
+    );
+  }
+
+  protected isStepSet(
+    step: CheckoutStep,
+    isAccountPayment: boolean
+  ): Observable<boolean | UrlTree> {
+    if (step && !step.disabled) {
+      switch (step.type[0]) {
+        case CheckoutStepType.PAYMENT_TYPE: {
+          return this.isPaymentTypeSet(step);
+        }
+        case CheckoutStepType.DELIVERY_ADDRESS: {
+          return this.isShippingAddressAndCostCenterSet(step, isAccountPayment);
+        }
+        case CheckoutStepType.DELIVERY_MODE: {
+          return this.isDeliveryModeSet(step);
+        }
+        case CheckoutStepType.PAYMENT_DETAILS: {
+          break;
+        }
+        case CheckoutStepType.REVIEW_ORDER: {
+          break;
+        }
+      }
+    }
+    return of(true);
+  }
+
+  protected isPaymentTypeSet(
+    step: CheckoutStep
+  ): Observable<boolean | UrlTree> {
+      return this.paymentTypeService.getSelectedPaymentTypeState().pipe(filter((state) => !state.loading), map((state) => state.data), map((paymentType) => {
+          if (paymentType) {
+              return true;
+          }
+          else {
+              return this.getUrl(step.routeName);
+          }
+      }));
+  }
+
+  protected isShippingAddressAndCostCenterSet(
+    step: CheckoutStep,
+    isAccountPayment: boolean
+  ): Observable<boolean | UrlTree> {
+    return combineLatest([
+      this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(filter((state) => !state.loading), map((state) => state.data)),
+      this.checkoutCostCenterFacade.getCostCenterState().pipe(filter((state) => !state.loading), map((state) => state.data))
+    ]).pipe(
+      map(([deliveryAddress, costCenter]) => {
+        if (isAccountPayment) {
+          if (
+            deliveryAddress &&
+            Object.keys(deliveryAddress).length &&
+            Boolean(costCenter)
+          ) {
+            console.log("guard fine");
+            return true;
+          } else {
+            console.log("guard not fine");
+            return this.getUrl(step.routeName);
+          }
+        } else {
+          if (
+            deliveryAddress &&
+            Object.keys(deliveryAddress).length &&
+            costCenter === undefined
+          ) {
+            console.log("guard fine");
+            return true;
+          } else {
+            console.log("guard not fine");
+            return this.getUrl(step.routeName);
+          }
+        }
+      })
+    );
+  }
+
+  protected isDeliveryModeSet(
+    step: CheckoutStep
+  ): Observable<boolean | UrlTree> {
+    return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(filter((state) => !state.loading), map((state) => state.data), map((mode) => (mode ? true : this.getUrl(step.routeName))));
+  }
+
+  private getUrl(routeName: string): UrlTree {
+    return this.router.parseUrl(
+      this.routingConfigService.getRouteConfig(routeName).paths?.[0] as string
+    );
+  }
+
+}

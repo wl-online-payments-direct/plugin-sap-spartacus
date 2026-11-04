@@ -1,0 +1,45 @@
+{
+  "paymentMethod": {
+    "title": "Betalingsgegevens",
+    "useNewCardLabel": "Gebruik nieuwe kaart",
+    "issuerLabel": "Uitgever",
+    "issuerDefaultOption": "Select Issuer",
+    "paymentRejected": "Uw betaling is afgewezen. Probeer het alstublieft opnieuw.",
+    "paymentCancelled": "Betaling geannuleerd! Selecteer een nieuwe betaalmethode.",
+    "payByLink": "Betalen via link"
+  },
+  "tokenization": {
+    "otherPayments": "Een andere betaalmethode",
+    "useSavedCard": "Gebruik de opgeslagen kaart",
+    "do": "Betaal nu",
+    "dialogTitle": "Opgeslagen kaarten",
+    "cardNumber": "Kaartnummer",
+    "cardholdersName": "Naam van de kaarthouder",
+    "expiryDate": "Vervaldatum",
+    "useCard": "Gebruik kaart"
+  },
+  "worldlineCheckoutReview": {
+    "endOn": "Einde aan",
+    "recurrencePeriodType_DAILY": "Dag(en)",
+    "recurrencePeriodType_WEEKLY": "Week(en)",
+    "recurrencePeriodType_YEARLY": "Jaarlijks",
+    "recurrencePeriodType_MONTHLY": "Maand(en)",
+    "repeatOnMonths": "Herhaal elke # maanden"
+
+  },
+  "mandate": {
+    "info": "MANDATE INFO",
+    "address": "ADRES VAN DE MANDAAT"
+  },
+  "surcharge": {
+    "message": "Houd er rekening mee dat er een toeslag kan worden toegevoegd aan het bedrag dat u moet betalen, afhankelijk van de door u gekozen betaalmethode.",
+    "surcharge": "Toeslag",
+    "testMessage": "Testbericht"
+  },
+  "replenishmentMessages": {
+    "enable-replenishment": "Maak een account aan of log in om een nabestelling te plaatsen.",
+    "error-message-payment-method": "Zorg ervoor dat u toestemming geeft om uw betaalgegevens op te slaan voor uw nabestelling.",
+    "HTP-remember-payment-details": "Geef toestemming om uw betaalgegevens op te slaan voor uw nabestelling.",
+    "HOP-remember-payment-details": "Door een nabestelling te plaatsen, ga ik ermee akkoord dat mijn betaalgegevens worden bewaard gedurende de looptijd van mijn abonnement."
+  }
+}

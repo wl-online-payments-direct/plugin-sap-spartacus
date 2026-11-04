@@ -1,0 +1,45 @@
+{
+  "paymentMethod": {
+    "title": "Payment Details",
+    "useNewCardLabel": "Use new card",
+    "issuerLabel": "Issuer",
+    "issuerDefaultOption": "Select Issuer",
+    "paymentRejected": "Your payment has been rejected. Please try again.",
+    "paymentCancelled": "Payment cancelled! Please select new payment method.",
+    "payByLink": "Pay By Link"
+  },
+  "tokenization": {
+    "otherPayments": "Another payment method",
+    "useSavedCard": "Use Saved Card",
+    "do": "Pay now",
+    "dialogTitle": "Saved cards",
+    "cardNumber": "Card number",
+    "cardholdersName": "Cardholder's name",
+    "expiryDate": "Expiry date",
+    "useCard": "Use card"
+  },
+  "worldlineCheckoutReview": {
+    "endOn": "End On",
+    "recurrencePeriodType_DAILY": "Day(s)",
+    "recurrencePeriodType_WEEKLY": "Week(s)",
+    "recurrencePeriodType_YEARLY": "Yearly",
+    "recurrencePeriodType_MONTHLY": "Month(s)",
+    "repeatOnMonths": "Repeat Every # Months"
+
+  },
+  "mandate": {
+    "info": "MANDATE INFO",
+    "address": "MANDATE ADDRESS"
+  },
+  "surcharge": {
+    "message": "Please note that a surcharge may be added to the amount you have to pay depending on the payment method you have chosen.",
+    "surcharge": "Surcharge",
+    "testMessage": "Test Message"
+  },
+  "replenishmentMessages": {
+    "enable-replenishment": "Please create an account or login to place a replenishment order",
+    "error-message-payment-method": "Please ensure you opt-in to store your payment details for your replenishment order.",
+    "HTP-remember-payment-details": "Please opt-in to store your payment details for your replenishment order.",
+    "HOP-remember-payment-details": "By placing a replenishment order, I agree for my payment details to be saved for the duration of my subscription."
+  }
+}

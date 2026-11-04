@@ -1,0 +1,45 @@
+{
+  "paymentMethod": {
+    "title" : "Détails du paiement",
+    "useNewCardLabel": "Utiliser une nouvelle carte",
+    "issuerLabel": "Émetteur",
+    "issuerDefaultOption": "Sélectionnez l'émetteur",
+    "paymentRejected" : "Votre paiement a été rejeté. Veuillez réessayer.",
+    "paymentAnnulé" : "Paiement annulé ! Veuillez sélectionner un nouveau mode de paiement.",
+    "payByLink" : "Payer par lien"
+  },
+  "tokenization": {
+    "otherPayments" : "Autre mode de paiement",
+    "useSavedCard": "Utiliser la carte enregistrée",
+    "do" : "Payer maintenant",
+    "dialogTitle": "Cartes enregistrées",
+    "cardNumber": "Numéro de carte",
+    "cardholdersName" : "Nom du titulaire de la carte",
+    "expiryDate" : "Date d'expiration",
+    "useCard": "Utiliser la carte"
+  },
+  "worldlineCheckoutReview": {
+    "endOn": "Fin sur",
+    "recurrencePeriodType_DAILY": "Jour(s)",
+    "recurrencePeriodType_WEEKLY": "Semaine(s)",
+    "recurrencePeriodType_YEARLY": "Annuel",
+    "recurrencePeriodType_MONTHLY": "Mois(s)",
+    "repeatOnMonths" : "Répéter tous les # mois"
+
+  },
+  "mandate": {
+    "info": "INFORMATIONS MANDATÉES",
+    "address" : "ADRESSE DU MANDAT"
+  },
+  "surcharge": {
+    "message": "Veuillez noter qu'un supplément peut être ajouté au montant à payer en fonction du mode de paiement choisi.",
+    "surcharge" : "Surcharge",
+    "testMessage": "Message de test"
+  },
+  "replenishmentMessages" : {
+    "enable-replenishment": "Veuillez créer un compte ou vous connecter pour passer une commande de réapprovisionnement",
+    "error-message-payment-method": "Veuillez vous assurer d'accepter l'enregistrement de vos informations de paiement pour votre commande de réapprovisionnement.",
+    "HTP-remember-payment-details": "Veuillez accepter d'enregistrer vos informations de paiement pour votre commande de réapprovisionnement.",
+    "HOP-remember-payment-details" : "En passant une commande de réapprovisionnement, j'accepte que mes informations de paiement soient enregistrées pendant toute la durée de mon abonnement."
+  }
+}

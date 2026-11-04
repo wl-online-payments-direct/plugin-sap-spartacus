@@ -1,0 +1,8 @@
+<ng-container *ngIf="(isAccountPayment() | async) as isAccountPayment; else isWorldlinePayment">
+  <cx-review-submit ></cx-review-submit>
+</ng-container>
+
+<ng-template #isWorldlinePayment>
+  <worldline-review-submit></worldline-review-submit>
+</ng-template>
+
